@@ -2,6 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Color tokens */
+  --color-primary: #4f46e5;
+  --color-secondary: #0f172a;
+  --color-accent: #22d3ee;
+  --color-background: #f8fafc;
+  --color-success: #16a34a;
+
+  /* 8px spacing scale (1 = 8px) */
+  --space-0: 0px;
+  --space-1: 0.5rem; /* 8px */
+  --space-2: 1rem; /* 16px */
+  --space-3: 1.5rem; /* 24px */
+  --space-4: 2rem; /* 32px */
+  --space-5: 2.5rem; /* 40px */
+  --space-6: 3rem; /* 48px */
+  --space-7: 3.5rem; /* 56px */
+  --space-8: 4rem; /* 64px */
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-secondary);
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-slate-100 hover:bg-secondary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-slate-950 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
+  }
+
+  .card {
+    @apply rounded-xl bg-white shadow-sm border border-slate-200 p-4 md:p-6;
+  }
+
+  .card-spacing {
+    @apply space-y-3 md:space-y-4;
+  }
+}
+
 /* 간단한 애니메이션 효과 */
 @keyframes fadeInUp {
   from {
