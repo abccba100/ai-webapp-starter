@@ -6,6 +6,7 @@ import { createSupabaseClient } from "@/lib/supabase/client";
 import { createProject } from "@/lib/supabase/projects";
 import { createIdea } from "@/lib/supabase/ideas";
 import { saveSpecifications } from "@/lib/supabase/specifications";
+import { LoadingButton } from "@/components/ui";
 
 const MIN_LENGTH = 50;
 
@@ -154,22 +155,30 @@ export default function InputPage() {
         <div className="relative">
           <textarea
             id="idea"
-            className="w-full h-72 p-5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-base leading-relaxed shadow-sm transition bg-white"
+            aria-invalid={!!error}
+            aria-describedby="idea-hint idea-count"
+            className={`w-full h-72 p-5 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-base leading-relaxed shadow-sm transition bg-white ${
+              error ? "border-destructive" : "border-slate-300"
+            }`}
             placeholder="예: 위치 기반으로 가까운 사람들과 취미를 공유하는 모임 앱을 만들고 싶어요. 채팅 기능과 일정 투표 기능이 꼭 필요해요. 어떤 사람들이 주로 사용할지, 어떤 상황에서 유용할지도 함께 적어주세요."
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
             disabled={isAnalyzing}
           />
         </div>
-        <div className="mt-1 flex items-center justify-between text-xs">
-          <span className={error ? "text-red-500" : "text-slate-500"}>
+        <div className="mt-1 flex items-center justify-between text-xs" id="idea-hint">
+          <span
+            id="idea-count"
+            role={error ? "alert" : undefined}
+            className={error ? "text-destructive" : "text-slate-500"}
+          >
             {error
               ? error
               : `최소 ${MIN_LENGTH}자 이상, 구체적으로 작성할수록 더 좋은 결과를 얻을 수 있어요.`}
           </span>
           <span
             className={
-              currentLength < MIN_LENGTH ? "text-red-500" : "text-emerald-600"
+              currentLength < MIN_LENGTH ? "text-destructive" : "text-success"
             }
           >
             {currentLength} / {MIN_LENGTH}자
@@ -177,40 +186,17 @@ export default function InputPage() {
         </div>
       </section>
 
-      <div className="pt-4 flex justify-end">
-        <button
+      <div className="pt-6 mt-8 border-t border-slate-200 flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
+        <LoadingButton
           onClick={handleNext}
-          disabled={isAnalyzing}
-          className={`btn btn-primary px-6 py-3 text-sm font-semibold rounded-xl shadow-md gap-2
-            ${
-              isAnalyzing
-                ? "opacity-80 cursor-not-allowed"
-                : "hover:-translate-y-0.5"
-            }
-          `}
+          loading={isAnalyzing}
+          loadingLabel="다음 단계로 이동 중..."
+          className={`btn btn-primary px-8 py-3 rounded-xl text-sm font-semibold shadow-md ${
+            isAnalyzing ? "opacity-80 cursor-not-allowed" : "hover:-translate-y-0.5"
+          }`}
         >
-          {isAnalyzing && (
-            <svg
-              className="animate-spin h-4 w-4 text-white"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v8H4z"
-              ></path>
-            </svg>
-          )}
-          {isAnalyzing ? "다음 단계로 이동 중..." : "다음 단계로"}
-        </button>
+          다음 단계로
+        </LoadingButton>
       </div>
     </div>
   );

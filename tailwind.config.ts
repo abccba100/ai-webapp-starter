@@ -14,6 +14,7 @@ const config: Config = {
         accent: "#22D3EE",
         background: "#F8FAFC",
         success: "#16A34A",
+        destructive: "#dc2626",
       },
       spacing: {
         0: "0px",
