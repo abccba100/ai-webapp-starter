@@ -3,6 +3,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { SpecItem, DesignTheme } from '@/types';
 
 interface WizardState {
+  projectName: string;
+  setProjectName: (s: string) => void;
+  oneLineDesc: string;
+  setOneLineDesc: (s: string) => void;
   idea: string;
   setIdea: (s: string) => void;
   specs: SpecItem[];
@@ -13,6 +17,8 @@ interface WizardState {
   setSpecChangeRequest: (v: string | null) => void;
   selectedTheme: DesignTheme | null;
   setTheme: (t: DesignTheme) => void;
+  buildComplete: boolean;
+  setBuildComplete: (v: boolean) => void;
   currentProjectId: string | null;
   setCurrentProjectId: (id: string | null) => void;
   currentIdeaId: string | null;
@@ -23,11 +29,14 @@ interface WizardState {
 const WizardContext = createContext<WizardState | null>(null);
 
 export const WizardProvider = ({ children }: { children: ReactNode }) => {
+  const [projectName, setProjectName] = useState('');
+  const [oneLineDesc, setOneLineDesc] = useState('');
   const [idea, setIdea] = useState('');
   const [specs, setSpecs] = useState<SpecItem[]>([]);
   const [specApproved, setSpecApproved] = useState(false);
   const [specChangeRequest, setSpecChangeRequest] = useState<string | null>(null);
   const [selectedTheme, setTheme] = useState<DesignTheme | null>(null);
+  const [buildComplete, setBuildComplete] = useState(false);
   const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
   const [currentIdeaId, setCurrentIdeaId] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -39,6 +48,8 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         if (saved) {
           try {
             const parsed = JSON.parse(saved);
+            setProjectName(parsed.projectName || '');
+            setOneLineDesc(parsed.oneLineDesc || '');
             setIdea(parsed.idea || '');
             setSpecs(parsed.specs || []);
             setTheme(parsed.selectedTheme || null);
@@ -50,6 +61,7 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
             );
             setCurrentProjectId(parsed.currentProjectId ?? null);
             setCurrentIdeaId(parsed.currentIdeaId ?? null);
+            setBuildComplete(parsed.buildComplete ?? false);
           } catch (e) {
             console.error("Failed to load context", e);
           }
@@ -64,23 +76,29 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isLoaded) {
       const data = {
+        projectName,
+        oneLineDesc,
         idea,
         specs,
         selectedTheme,
         specApproved,
         specChangeRequest,
+        buildComplete,
         currentProjectId,
         currentIdeaId,
       };
       localStorage.setItem('wizard_data', JSON.stringify(data));
     }
-  }, [idea, specs, selectedTheme, specApproved, specChangeRequest, currentProjectId, currentIdeaId, isLoaded]);
+  }, [projectName, oneLineDesc, idea, specs, selectedTheme, specApproved, specChangeRequest, buildComplete, currentProjectId, currentIdeaId, isLoaded]);
 
   const resetWizard = () => {
+    setProjectName('');
+    setOneLineDesc('');
     setIdea('');
     setSpecs([]);
     setSpecApproved(false);
     setSpecChangeRequest(null);
+    setBuildComplete(false);
     setCurrentProjectId(null);
     setCurrentIdeaId(null);
     setTheme(null);
@@ -92,6 +110,10 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
   return (
     <WizardContext.Provider
       value={{
+        projectName,
+        setProjectName,
+        oneLineDesc,
+        setOneLineDesc,
         idea,
         setIdea,
         specs,
@@ -102,6 +124,8 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         setSpecChangeRequest,
         selectedTheme,
         setTheme,
+        buildComplete,
+        setBuildComplete,
         currentProjectId,
         setCurrentProjectId,
         currentIdeaId,

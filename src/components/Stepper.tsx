@@ -1,6 +1,8 @@
-// src/components/Stepper.tsx
 "use client";
+
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { useWizard } from "@/context/WizardContext";
 
 const steps = [
   { path: "/input", label: "Idea" },
@@ -11,37 +13,53 @@ const steps = [
 
 export default function Stepper() {
   const pathname = usePathname();
+  const { specApproved, selectedTheme } = useWizard();
   if (pathname === "/") return null;
 
   return (
-    <nav className="md:hidden flex justify-center py-4 bg-background border-b">
-      <div className="flex items-center space-x-4 overflow-x-auto px-4">
+    <nav className="flex justify-center border-b border-neutral-200 bg-neutral-50 py-4 md:hidden">
+      <div className="mx-auto flex max-w-4xl items-center gap-4 overflow-x-auto px-8">
         {steps.map((step, idx) => {
           const isActive = pathname.startsWith(step.path);
+          const isDesignStep = step.path === "/design";
+          const isBuildStep = step.path === "/build";
+          const isDisabled =
+            (isDesignStep && !specApproved) ||
+            (isBuildStep && (!specApproved || !selectedTheme));
+
+          if (isDisabled) {
+            return (
+              <span
+                key={step.path}
+                className="flex cursor-not-allowed items-center gap-2 shrink-0 rounded-lg px-3 py-1.5 text-neutral-400"
+              >
+                <span className="flex h-6 w-6 items-center justify-center rounded text-xs font-bold bg-neutral-200 text-neutral-500">
+                  {idx + 1}
+                </span>
+                {step.label}
+              </span>
+            );
+          }
+
           return (
-            <div key={step.path} className="flex items-center">
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                  isActive
-                    ? "bg-primary text-white"
-                    : "bg-slate-200 text-slate-500"
+            <Link
+              key={step.path}
+              href={step.path}
+              className={`flex items-center gap-2 shrink-0 rounded-lg px-3 py-1.5 transition ${
+                isActive
+                  ? "bg-neutral-900 text-white font-medium"
+                  : "text-neutral-500 hover:text-neutral-700"
+              }`}
+            >
+              <span
+                className={`flex h-6 w-6 items-center justify-center rounded text-xs font-bold ${
+                  isActive ? "bg-white/20 text-white" : "bg-neutral-200 text-neutral-600"
                 }`}
               >
                 {idx + 1}
-              </div>
-              <span
-                className={`ml-2 text-xs ${
-                  isActive
-                    ? "font-semibold text-secondary"
-                    : "text-slate-400"
-                }`}
-              >
-                {step.label}
               </span>
-              {idx < steps.length - 1 && (
-                <div className="w-8 h-px bg-slate-300 ml-4" />
-              )}
-            </div>
+              {step.label}
+            </Link>
           );
         })}
       </div>

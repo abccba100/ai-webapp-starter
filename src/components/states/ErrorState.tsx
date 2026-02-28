@@ -2,17 +2,21 @@
 
 import type { ReactNode } from "react";
 
-interface EmptyStateProps {
-  title: string;
+interface ErrorStateProps {
+  title?: string;
   description?: string;
   children?: ReactNode;
 }
 
-export default function EmptyState({
-  title,
-  description,
+const defaultTitle = "문제가 발생했습니다";
+const defaultDescription =
+  "일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+
+export default function ErrorState({
+  title = defaultTitle,
+  description = defaultDescription,
   children,
-}: EmptyStateProps) {
+}: ErrorStateProps) {
   return (
     <div className="w-full">
       <div className="flex flex-col items-center justify-center rounded-xl border border-neutral-200 bg-white px-8 py-16 text-center shadow-sm">
