@@ -8,7 +8,7 @@ interface LoadingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Spinner = () => (
-  <svg className="animate-spin h-4 w-4 shrink-0" viewBox="0 0 24 24" aria-hidden>
+  <svg className="h-4 w-4 shrink-0 animate-spin" viewBox="0 0 24 24" aria-hidden>
     <circle
       className="opacity-25"
       cx="12"
@@ -38,7 +38,7 @@ export default function LoadingButton({
     <button
       type="button"
       disabled={disabled ?? loading}
-      className={`inline-flex items-center justify-center gap-2 ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-6 py-4 text-base font-medium text-white transition hover:bg-neutral-800 disabled:opacity-70 ${className}`}
       aria-busy={loading}
       aria-live="polite"
       {...rest}

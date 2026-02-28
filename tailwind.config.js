@@ -1,0 +1,65 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        ds: {
+          bg: "var(--ds-bg)",
+          surface: "var(--ds-surface)",
+          "surface-raised": "var(--ds-surface-raised)",
+          "surface-overlay": "var(--ds-surface-overlay)",
+          border: "var(--ds-border)",
+          "border-strong": "var(--ds-border-strong)",
+          text: "var(--ds-text)",
+          "text-muted": "var(--ds-text-muted)",
+          "text-subtle": "var(--ds-text-subtle)",
+          accent: "var(--ds-accent)",
+          "accent-hover": "var(--ds-accent-hover)",
+          "accent-muted": "var(--ds-accent-muted)",
+          success: "var(--ds-success)",
+          "success-muted": "var(--ds-success-muted)",
+          error: "var(--ds-error)",
+          "error-muted": "var(--ds-error-muted)",
+          warning: "var(--ds-warning)",
+        },
+      },
+      fontFamily: {
+        ds: ["var(--ds-font-display)", "system-ui", "sans-serif"],
+      },
+      spacing: {
+        ds: {
+          1: "var(--ds-space-1)",
+          2: "var(--ds-space-2)",
+          3: "var(--ds-space-3)",
+          4: "var(--ds-space-4)",
+          5: "var(--ds-space-5)",
+          6: "var(--ds-space-6)",
+          8: "var(--ds-space-8)",
+          10: "var(--ds-space-10)",
+          12: "var(--ds-space-12)",
+          16: "var(--ds-space-16)",
+        },
+      },
+      borderRadius: {
+        "ds-sm": "var(--ds-radius-sm)",
+        "ds-md": "var(--ds-radius-md)",
+        "ds-lg": "var(--ds-radius-lg)",
+        "ds-xl": "var(--ds-radius-xl)",
+        "ds-full": "var(--ds-radius-full)",
+      },
+      fontSize: {
+        "ds-xs": "var(--ds-text-xs)",
+        "ds-sm": "var(--ds-text-sm)",
+        "ds-base": "var(--ds-text-base)",
+        "ds-lg": "var(--ds-text-lg)",
+        "ds-xl": "var(--ds-text-xl)",
+        "ds-2xl": "var(--ds-text-2xl)",
+        "ds-3xl": "var(--ds-text-3xl)",
+        "ds-4xl": "var(--ds-text-4xl)",
+        "ds-5xl": "var(--ds-text-5xl)",
+      },
+    },
+  },
+  plugins: [],
+};
