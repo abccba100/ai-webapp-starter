@@ -1,7 +1,8 @@
-"use client";
+\"use client\";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useWizard } from "@/context/WizardContext";
 
 const steps = [
   { path: "/input", label: "Idea" },
@@ -12,6 +13,7 @@ const steps = [
 
 export default function SidebarSteps() {
   const pathname = usePathname();
+  const { specApproved } = useWizard();
   if (pathname === "/") return null;
 
   return (
@@ -23,6 +25,23 @@ export default function SidebarSteps() {
         <nav className="space-y-1">
           {steps.map((step) => {
             const isActive = pathname.startsWith(step.path);
+            const isDesignStep = step.path === "/design";
+            const isDisabled = isDesignStep && !specApproved;
+
+            if (isDisabled) {
+              return (
+                <div
+                  key={step.path}
+                  className="flex items-center justify-between rounded-md px-3 py-2 text-sm bg-slate-100 text-slate-300 cursor-not-allowed"
+                >
+                  <span className="font-medium">{step.label}</span>
+                  <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide text-slate-300">
+                    승인 필요
+                  </span>
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={step.path}
