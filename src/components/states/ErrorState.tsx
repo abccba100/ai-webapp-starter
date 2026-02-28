@@ -18,11 +18,11 @@ export default function ErrorState({
   children,
 }: ErrorStateProps) {
   return (
-    <div className="w-full">
-      <div className="flex flex-col items-center justify-center rounded-xl border border-neutral-200 bg-white px-8 py-16 text-center shadow-sm">
-        <h2 className="mb-2 text-2xl font-medium text-neutral-900">{title}</h2>
+    <div className="w-full min-w-0">
+      <div className="flex flex-col items-center justify-center rounded-card border border-border bg-surface px-8 py-16 text-center">
+        <h2 className="mb-2 text-2xl font-semibold text-text">{title}</h2>
         {description && (
-          <p className="mx-auto mb-6 max-w-md text-base text-neutral-600">
+          <p className="mx-auto mb-6 max-w-md text-base leading-relaxed text-text2">
             {description}
           </p>
         )}

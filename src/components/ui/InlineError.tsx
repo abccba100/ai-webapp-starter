@@ -7,7 +7,7 @@ interface InlineErrorProps {
 
 export default function InlineError({ message, id }: InlineErrorProps) {
   return (
-    <span id={id} role="alert" className="text-sm text-red-600">
+    <span id={id} role="alert" className="text-sm text-accent3">
       {message}
     </span>
   );
