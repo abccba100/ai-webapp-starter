@@ -1,10 +1,12 @@
 "use client";
 
 import type { ButtonHTMLAttributes } from "react";
+import { Button } from "./Button";
 
 interface LoadingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   loadingLabel?: string;
+  variant?: "primary" | "secondary" | "success";
 }
 
 const Spinner = () => (
@@ -31,20 +33,22 @@ export default function LoadingButton({
   loadingLabel,
   children,
   disabled,
+  variant = "primary",
   className = "",
   ...rest
 }: LoadingButtonProps) {
   return (
-    <button
+    <Button
       type="button"
+      variant={variant}
       disabled={disabled ?? loading}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-6 py-4 text-base font-medium text-white transition hover:bg-neutral-800 disabled:opacity-70 ${className}`}
+      className={className}
       aria-busy={loading}
       aria-live="polite"
       {...rest}
     >
       {loading && <Spinner />}
       <span>{loading && loadingLabel ? loadingLabel : children}</span>
-    </button>
+    </Button>
   );
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWizard } from "@/context/WizardContext";
 import Link from "next/link";
+import { Button, Card, PageHeader } from "@/components/ui";
 
 const LOG_MESSAGES = [
   "서버 환경을 구축하고 있습니다...",
@@ -52,18 +53,18 @@ export default function BuildPage() {
     return (
       <div className="ds-fade-in flex min-h-[500px] flex-col items-center justify-center">
         <div className="relative mb-10 h-20 w-20">
-          <div className="absolute inset-0 rounded-full border-4 border-neutral-200" />
-          <div className="absolute inset-0 animate-spin rounded-full border-4 border-neutral-900 border-t-transparent" />
+          <div className="absolute inset-0 rounded-full border-4 border-border" />
+          <div className="absolute inset-0 animate-spin rounded-full border-4 border-accent border-t-transparent" />
         </div>
 
-        <h2 className="mb-6 text-2xl font-medium text-neutral-900">
+        <h2 className="mb-6 text-2xl font-semibold text-text">
           앱을 생성하고 있어요
         </h2>
 
-        <div className="flex h-48 w-full max-w-md flex-col justify-end overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 font-mono text-sm text-neutral-700 shadow-sm">
+        <div className="flex h-48 w-full max-w-md min-w-0 flex-col justify-end overflow-hidden rounded-card border border-border bg-surface p-6 font-mono text-sm text-text2">
           {LOG_MESSAGES.slice(0, logIndex + 1).map((msg, idx) => (
-            <div key={idx} className="mb-1 opacity-90">
-              <span className="mr-2 text-neutral-500">&gt;</span>
+            <div key={idx} className="mb-1 min-w-0 opacity-90">
+              <span className="mr-2 text-text2">&gt;</span>
               {msg}
               {idx === logIndex && idx < LOG_MESSAGES.length && (
                 <span className="ml-1 animate-pulse">_</span>
@@ -71,7 +72,7 @@ export default function BuildPage() {
             </div>
           ))}
         </div>
-        <p className="mt-6 text-base text-neutral-600">
+        <p className="mt-6 text-base text-text2">
           잠시만 기다려주세요. 약 1분 정도 소요됩니다.
         </p>
       </div>
@@ -79,62 +80,58 @@ export default function BuildPage() {
   }
 
   return (
-    <div className="ds-fade-in space-y-10">
-      <div className="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-10 text-center shadow-sm">
-        <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-green-500 to-neutral-900" />
+    <div className="ds-fade-in space-y-8">
+      <div className="relative overflow-hidden rounded-card border border-border bg-surface p-10 text-center">
+        <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-accent2 to-accent" />
 
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-accent2/20">
           <span className="text-3xl">🎉</span>
         </div>
 
-        <h1 className="mb-4 text-5xl font-semibold tracking-tight text-neutral-900">
-          나만의 앱이 완성되었습니다!
-        </h1>
-        <p className="mb-10 text-base text-neutral-600">
-          이제 아래 링크에서 바로 확인하거나 코드를 다운로드할 수 있습니다.
-        </p>
+        <PageHeader
+          tag="Build"
+          title="나만의 앱이 완성되었습니다!"
+          subtitle="이제 아래 링크에서 바로 확인하거나 코드를 다운로드할 수 있습니다."
+        />
 
-        <div className="flex flex-col justify-center gap-4 sm:flex-row">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             href="/preview"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-8 py-4 text-base font-medium text-white transition hover:bg-neutral-800"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-7 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(108,99,255,0.35)]"
           >
             결과물 보러가기
           </Link>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg border border-neutral-200 bg-white px-8 py-4 text-base font-medium text-neutral-900 transition hover:bg-neutral-50"
-          >
+          <Button type="button" variant="secondary">
             코드 다운로드 (ZIP)
-          </button>
+          </Button>
         </div>
       </div>
 
-      <div className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <h3 className="mb-4 text-2xl font-medium text-neutral-900">
+      <Card>
+        <h3 className="mb-4 text-2xl font-semibold text-text">
           생성 요약
         </h3>
-        <div className="space-y-2 text-base text-neutral-600">
-          <div className="flex justify-between">
+        <div className="space-y-2 text-base text-text2">
+          <div className="flex justify-between gap-4">
             <span>선택 테마</span>
-            <span className="font-medium text-neutral-900 capitalize">
+            <span className="font-semibold capitalize text-text">
               {selectedTheme || "선택 안함"}
             </span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-4">
             <span>구현된 기능</span>
-            <span className="font-medium text-neutral-900">
+            <span className="font-semibold text-text">
               {specs.length}개 모듈
             </span>
           </div>
         </div>
-      </div>
+      </Card>
 
-      <div className="flex flex-col gap-4 border-t border-neutral-200 pt-10 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 border-t border-border pt-10 md:flex-row md:items-center md:justify-between">
         <Link
           href="/"
           onClick={resetWizard}
-          className="text-center text-base text-neutral-600 underline transition hover:text-neutral-900 md:text-left"
+          className="text-center text-base text-text2 underline transition hover:text-text md:text-left"
         >
           새로운 프로젝트 만들기
         </Link>

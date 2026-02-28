@@ -1,3 +1,5 @@
+import { Container } from "@/components/ui";
+
 const FEATURES = [
   {
     title: "아이디어만 입력",
@@ -18,32 +20,32 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="bg-neutral-50 py-20 px-8">
-      <div className="mx-auto max-w-4xl">
+    <section id="features" className="border-t border-border bg-surface2 py-20">
+      <Container>
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-2xl font-medium text-neutral-900">
+          <h2 className="mb-4 text-2xl font-semibold text-text">
             아이디어에서 앱까지, 한 번에
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-neutral-600">
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-text2">
             코딩 없이 AI가 전체 파이프라인을 처리합니다
           </p>
         </div>
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-3">
           {FEATURES.map((feature) => (
             <div
               key={feature.title}
-              className="rounded-xl border border-neutral-200 bg-white p-8 shadow-sm transition hover:shadow"
+              className="min-w-0 rounded-card border border-border bg-surface p-8 transition hover:border-[#3a3a50] hover:shadow-glow"
             >
-              <h3 className="mb-4 text-xl font-medium text-neutral-900">
+              <h3 className="mb-4 text-xl font-semibold text-text">
                 {feature.title}
               </h3>
-              <p className="text-base leading-relaxed text-neutral-600">
+              <p className="min-w-0 break-words text-base leading-relaxed text-text2">
                 {feature.description}
               </p>
             </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

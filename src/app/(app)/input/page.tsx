@@ -7,7 +7,7 @@ import { createSupabaseClient } from "@/lib/supabase/client";
 import { createProject } from "@/lib/supabase/projects";
 import { createIdea } from "@/lib/supabase/ideas";
 import { saveSpecifications } from "@/lib/supabase/specifications";
-import { LoadingButton, PageErrorBanner } from "@/components/ui";
+import { LoadingButton, PageErrorBanner, PageHeader } from "@/components/ui";
 import { mapAnalyzeResultToSpecs } from "@/lib/specUtils";
 
 const MIN_IDEA_LENGTH = 50;
@@ -136,16 +136,12 @@ export default function InputPage() {
   const currentLength = idea.trim().length;
 
   return (
-    <div className="ds-fade-in space-y-10">
-      <header className="space-y-2">
-        <h1 className="text-5xl font-semibold tracking-tight text-neutral-900">
-          어떤 앱을 만들고 싶으신가요?
-        </h1>
-        <p className="text-base text-neutral-600">
-          프로젝트 이름과 한 줄 설명을 입력한 뒤, 만들고 싶은 프로그램을
-          자유롭게 서술해 주세요.
-        </p>
-      </header>
+    <div className="ds-fade-in space-y-8">
+      <PageHeader
+        tag="Idea"
+        title="어떤 앱을 만들고 싶으신가요?"
+        subtitle="프로젝트 이름과 한 줄 설명을 입력한 뒤, 만들고 싶은 프로그램을 자유롭게 서술해 주세요."
+      />
 
       {apiError && (
         <PageErrorBanner
@@ -155,10 +151,10 @@ export default function InputPage() {
       )}
 
       <section className="space-y-4">
-        <h2 className="text-2xl font-medium text-neutral-900">
+        <h2 className="text-2xl font-semibold text-text">
           예시 템플릿 선택
         </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {TEMPLATES.map((tpl) => {
             const isActive = selectedTemplateId === tpl.id;
             return (
@@ -166,17 +162,17 @@ export default function InputPage() {
                 key={tpl.id}
                 type="button"
                 onClick={() => handleSelectTemplate(tpl.id)}
-                className={`text-left rounded-xl border-2 p-6 shadow-sm transition ${
+                className={`min-w-0 rounded-card border-2 p-6 text-left shadow-sm transition ${
                   isActive
-                    ? "border-neutral-900 bg-neutral-50"
-                    : "border-neutral-200 bg-white hover:border-neutral-300"
+                    ? "border-accent bg-accent/10"
+                    : "border-border bg-surface2 hover:border-[#3a3a50]"
                 }`}
               >
-                <h3 className="mb-1 text-base font-medium text-neutral-900">
+                <h3 className="mb-1 text-base font-semibold text-text">
                   {tpl.title}
                 </h3>
-                <p className="mb-2 text-sm text-neutral-600">{tpl.desc}</p>
-                <p className="line-clamp-3 text-sm text-neutral-500">
+                <p className="mb-2 text-sm text-text2">{tpl.desc}</p>
+                <p className="line-clamp-3 min-w-0 break-words text-sm text-text2">
                   {tpl.example}
                 </p>
               </button>
@@ -186,10 +182,10 @@ export default function InputPage() {
       </section>
 
       <section className="space-y-6">
-        <div className="space-y-2">
+        <div>
           <label
             htmlFor="projectName"
-            className="block text-base font-medium text-neutral-900"
+            className="mb-2 block text-base font-medium text-text"
           >
             프로젝트 이름
           </label>
@@ -200,14 +196,14 @@ export default function InputPage() {
             onChange={(e) => setProjectName(e.target.value)}
             disabled={isAnalyzing}
             placeholder="예: 동네 마켓"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-base text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-300/50"
+            className="ds-input"
           />
         </div>
 
-        <div className="space-y-2">
+        <div>
           <label
             htmlFor="oneLineDesc"
-            className="block text-base font-medium text-neutral-900"
+            className="mb-2 block text-base font-medium text-text"
           >
             한 줄 설명 (자연어)
           </label>
@@ -218,26 +214,24 @@ export default function InputPage() {
             onChange={(e) => setOneLineDesc(e.target.value)}
             disabled={isAnalyzing}
             placeholder="예: 중고 거래 / 나눔 / 동네 소통"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-base text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-300/50"
+            className="ds-input"
           />
         </div>
 
-        <div className="space-y-2">
+        <div>
           <label
             htmlFor="idea"
-            className="block text-base font-medium text-neutral-900"
+            className="mb-2 block text-base font-medium text-text"
           >
             만들고 싶은 프로그램 (자유롭게 서술)
           </label>
-          <div className="relative">
+          <div className="relative min-w-0">
             <textarea
               id="idea"
               aria-invalid={!!error}
               aria-describedby="idea-hint idea-count"
-              className={`h-64 w-full resize-none rounded-xl border bg-white p-6 text-base leading-relaxed text-neutral-900 transition focus:outline-none focus:ring-2 ${
-                error
-                  ? "border-red-500 focus:ring-red-500/30"
-                  : "border-neutral-200 focus:border-neutral-400 focus:ring-neutral-300/50"
+              className={`ds-input min-h-64 resize-y ${
+                error ? "border-accent3" : ""
               }`}
               placeholder="예: 위치 기반으로 가까운 사람들과 취미를 공유하는 모임 앱을 만들고 싶어요. 채팅 기능과 일정 투표 기능이 꼭 필요해요. 어떤 사람들이 주로 사용할지, 어떤 상황에서 유용할지도 함께 적어주세요."
               value={idea}
@@ -246,13 +240,13 @@ export default function InputPage() {
             />
           </div>
           <div
-            className="mt-2 flex items-center justify-between text-sm"
+            className="mt-2 flex min-w-0 items-center justify-between gap-2 text-sm"
             id="idea-hint"
           >
             <span
               id="idea-count"
               role={error ? "alert" : undefined}
-              className={error ? "text-red-600" : "text-neutral-600"}
+              className={error ? "text-accent3" : "text-text2"}
             >
               {error
                 ? error
@@ -260,7 +254,7 @@ export default function InputPage() {
             </span>
             <span
               className={
-                currentLength < MIN_IDEA_LENGTH ? "text-red-600" : "text-green-600"
+                currentLength < MIN_IDEA_LENGTH ? "text-accent3" : "text-accent2"
               }
             >
               {currentLength} / {MIN_IDEA_LENGTH}자
@@ -269,14 +263,13 @@ export default function InputPage() {
         </div>
       </section>
 
-      <div className="flex flex-col gap-4 border-t border-neutral-200 pt-10 md:flex-row md:items-center md:justify-end">
+      <div className="flex flex-col gap-4 border-t border-border pt-10 md:flex-row md:items-center md:justify-end">
         <LoadingButton
           onClick={handleNext}
           loading={isAnalyzing}
           loadingLabel="AI 분석 중..."
-          className={`px-8 py-4 text-base ${
-            isAnalyzing ? "cursor-not-allowed" : ""
-          }`}
+          variant="primary"
+          className={isAnalyzing ? "cursor-not-allowed" : ""}
         >
           다음 단계로
         </LoadingButton>

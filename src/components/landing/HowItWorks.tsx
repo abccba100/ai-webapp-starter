@@ -1,3 +1,5 @@
+import { Container } from "@/components/ui";
+
 const STEPS = [
   {
     number: "01",
@@ -23,37 +25,37 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 px-8">
-      <div className="mx-auto max-w-4xl">
+    <section id="how-it-works" className="py-20">
+      <Container>
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-2xl font-medium text-neutral-900">
+          <h2 className="mb-4 text-2xl font-semibold text-text">
             4단계로 완성
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-neutral-600">
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-text2">
             복잡한 설정 없이, 직관적인 단계만 따라오세요
           </p>
         </div>
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((step, i) => (
-            <div key={step.number} className="relative">
+            <div key={step.number} className="relative min-w-0">
               {i < STEPS.length - 1 && (
-                <div className="absolute left-full top-12 z-0 hidden h-px w-full -translate-y-1/2 bg-neutral-200 lg:block" />
+                <div className="absolute left-full top-12 z-0 hidden h-px w-full -translate-y-1/2 bg-border lg:block" />
               )}
-              <div className="relative z-10 rounded-xl border border-neutral-200 bg-white p-6 text-center shadow-sm">
-                <span className="mb-4 inline-block text-2xl font-medium text-neutral-900">
+              <div className="relative z-10 min-w-0 rounded-card border border-border bg-surface p-6 text-center">
+                <span className="mb-4 inline-block text-2xl font-semibold text-accent">
                   {step.number}
                 </span>
-                <h3 className="mb-2 text-lg font-medium text-neutral-900">
+                <h3 className="mb-2 text-lg font-semibold text-text">
                   {step.title}
                 </h3>
-                <p className="text-base leading-relaxed text-neutral-600">
+                <p className="min-w-0 break-words text-base leading-relaxed text-text2">
                   {step.desc}
                 </p>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

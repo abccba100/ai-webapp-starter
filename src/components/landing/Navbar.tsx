@@ -7,40 +7,40 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-8">
+    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border bg-surface/95 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
+      <div className="mx-auto flex h-14 max-w-[960px] items-center justify-between px-4 sm:px-8">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-semibold text-neutral-900 transition hover:text-neutral-600"
+          className="flex items-center gap-2 text-lg font-semibold text-text transition hover:text-text2"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-900 text-sm font-bold text-white">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-sm font-bold text-white">
             AI
           </span>
           AppBuilder
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-8 md:flex">
           <Link
             href="#features"
-            className="text-base text-neutral-600 transition hover:text-neutral-900"
+            className="text-base text-text2 transition hover:text-text"
           >
             기능
           </Link>
           <Link
             href="#how-it-works"
-            className="text-base text-neutral-600 transition hover:text-neutral-900"
+            className="text-base text-text2 transition hover:text-text"
           >
             사용법
           </Link>
           <Link
             href="/projects"
-            className="text-base text-neutral-600 transition hover:text-neutral-900"
+            className="text-base text-text2 transition hover:text-text"
           >
             프로젝트
           </Link>
           <Link
             href="/input"
-            className="rounded-lg bg-neutral-900 px-4 py-2 text-base font-medium text-white transition hover:bg-neutral-800"
+            className="rounded-lg bg-accent px-4 py-2 text-base font-bold text-white transition hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(108,99,255,0.35)]"
           >
             시작하기
           </Link>
@@ -48,7 +48,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="p-2 text-neutral-600 md:hidden"
+          className="p-2 text-text2 md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="메뉴"
         >
@@ -73,31 +73,31 @@ export function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="flex flex-col gap-4 border-t border-neutral-200 bg-white px-8 py-6 md:hidden">
+        <div className="flex flex-col gap-4 border-t border-border bg-surface px-4 py-6 sm:px-8 md:hidden">
           <Link
             href="#features"
-            className="text-neutral-600 transition hover:text-neutral-900"
+            className="text-text2 transition hover:text-text"
             onClick={() => setMobileOpen(false)}
           >
             기능
           </Link>
           <Link
             href="#how-it-works"
-            className="text-neutral-600 transition hover:text-neutral-900"
+            className="text-text2 transition hover:text-text"
             onClick={() => setMobileOpen(false)}
           >
             사용법
           </Link>
           <Link
             href="/projects"
-            className="text-neutral-600 transition hover:text-neutral-900"
+            className="text-text2 transition hover:text-text"
             onClick={() => setMobileOpen(false)}
           >
             프로젝트
           </Link>
           <Link
             href="/input"
-            className="rounded-lg bg-neutral-900 px-4 py-2 text-center font-medium text-white"
+            className="rounded-lg bg-accent px-4 py-2 text-center font-bold text-white"
             onClick={() => setMobileOpen(false)}
           >
             시작하기

@@ -2,15 +2,11 @@ import * as React from "react";
 
 const variantStyles = {
   primary:
-    "bg-neutral-900 text-white hover:bg-neutral-800 focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2",
+    "bg-accent text-white hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(108,99,255,0.35)]",
   secondary:
-    "bg-neutral-100 text-neutral-900 hover:bg-neutral-200 focus-visible:ring-2 focus-visible:ring-neutral-300 focus-visible:ring-offset-2",
-  ghost:
-    "bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 focus-visible:ring-2 focus-visible:ring-neutral-300",
-  outline:
-    "border border-neutral-200 bg-white text-neutral-900 hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-neutral-300",
-  destructive:
-    "bg-red-600 text-white hover:bg-red-700 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2",
+    "border border-border bg-transparent text-text hover:border-accent hover:text-accent",
+  success:
+    "bg-accent2 text-[#001a14] hover:-translate-y-px",
 } as const;
 
 type ButtonVariant = keyof typeof variantStyles;
@@ -31,7 +27,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={`inline-flex items-center justify-center rounded-lg px-4 py-3 text-base font-medium transition disabled:pointer-events-none disabled:opacity-50 ${variantStyles[variant]} ${className}`}
+      className={`inline-flex items-center gap-2 rounded-lg px-7 py-3 text-sm font-bold transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 ${variantStyles[variant]} ${className}`}
       {...props}
     >
       {children}

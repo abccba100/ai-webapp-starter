@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "./Button";
+
 interface PageErrorBannerProps {
   message: string;
   onRetry?: () => void;
@@ -9,17 +11,18 @@ export default function PageErrorBanner({ message, onRetry }: PageErrorBannerPro
   return (
     <div
       role="alert"
-      className="rounded-xl border border-red-200 bg-red-50 p-6 text-red-700"
+      className="rounded-lg border border-accent3/30 bg-accent3/10 px-4 py-3 text-[13px] font-semibold text-accent3"
     >
       <p className="text-base font-medium">{message}</p>
       {onRetry && (
-        <button
+        <Button
           type="button"
+          variant="secondary"
           onClick={onRetry}
-          className="mt-4 rounded-lg border border-neutral-200 bg-white px-4 py-2 text-base text-neutral-900 transition hover:bg-neutral-50"
+          className="mt-4"
         >
           다시 시도
-        </button>
+        </Button>
       )}
     </div>
   );

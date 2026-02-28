@@ -17,8 +17,8 @@ export default function Stepper() {
   if (pathname === "/") return null;
 
   return (
-    <nav className="flex justify-center border-b border-neutral-200 bg-neutral-50 py-4 md:hidden">
-      <div className="mx-auto flex max-w-4xl items-center gap-4 overflow-x-auto px-8">
+    <nav className="flex justify-center border-b border-border bg-surface2 py-4 md:hidden">
+      <div className="mx-auto flex max-w-[960px] items-center gap-4 overflow-x-auto px-4 sm:px-8">
         {steps.map((step, idx) => {
           const isActive = pathname.startsWith(step.path);
           const isDesignStep = step.path === "/design";
@@ -31,9 +31,9 @@ export default function Stepper() {
             return (
               <span
                 key={step.path}
-                className="flex cursor-not-allowed items-center gap-2 shrink-0 rounded-lg px-3 py-1.5 text-neutral-400"
+                className="flex shrink-0 cursor-not-allowed items-center gap-2 rounded-lg px-3 py-1.5 text-text2"
               >
-                <span className="flex h-6 w-6 items-center justify-center rounded text-xs font-bold bg-neutral-200 text-neutral-500">
+                <span className="flex h-6 w-6 items-center justify-center rounded bg-surface text-xs font-bold text-text2">
                   {idx + 1}
                 </span>
                 {step.label}
@@ -45,15 +45,15 @@ export default function Stepper() {
             <Link
               key={step.path}
               href={step.path}
-              className={`flex items-center gap-2 shrink-0 rounded-lg px-3 py-1.5 transition ${
+              className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-1.5 transition ${
                 isActive
-                  ? "bg-neutral-900 text-white font-medium"
-                  : "text-neutral-500 hover:text-neutral-700"
+                  ? "bg-accent font-medium text-white"
+                  : "text-text2 hover:text-text"
               }`}
             >
               <span
                 className={`flex h-6 w-6 items-center justify-center rounded text-xs font-bold ${
-                  isActive ? "bg-white/20 text-white" : "bg-neutral-200 text-neutral-600"
+                  isActive ? "bg-white/20 text-white" : "bg-surface text-text2"
                 }`}
               >
                 {idx + 1}

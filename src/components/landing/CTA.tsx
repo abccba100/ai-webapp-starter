@@ -1,26 +1,25 @@
 import Link from "next/link";
+import { Container } from "@/components/ui";
 
 export function CTA() {
   return (
-    <section className="py-20 px-8">
-      <div className="mx-auto max-w-4xl">
-        <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white px-8 py-16 text-center shadow-sm sm:px-16 sm:py-20">
-          <h2 className="mb-4 text-2xl font-medium text-neutral-900 sm:text-3xl">
+    <section className="py-20">
+      <Container>
+        <div className="min-w-0 overflow-hidden rounded-card border border-border bg-surface px-4 py-16 text-center sm:px-8 sm:py-20">
+          <h2 className="mb-4 text-2xl font-semibold text-text sm:text-3xl">
             지금 바로 시작하세요
           </h2>
-          <p className="mx-auto mb-10 max-w-xl text-base text-neutral-600">
-            회원가입 없이 무료로 사용할 수 있습니다.
-            <br />
-            아이디어 한 줄로 당신만의 앱을 만들어보세요.
+          <p className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-text2">
+            회원가입 없이 무료로 사용할 수 있습니다. 아이디어 한 줄로 당신만의 앱을 만들어보세요.
           </p>
           <Link
             href="/input"
-            className="inline-flex items-center justify-center rounded-lg bg-neutral-900 px-8 py-4 text-base font-medium text-white transition hover:bg-neutral-800"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-7 py-3 text-sm font-bold text-white transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(108,99,255,0.35)]"
           >
             무료로 시작하기
           </Link>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
