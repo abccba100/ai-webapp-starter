@@ -2,6 +2,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createSupabaseClient } from "@/lib/supabase/client";
+import { createProject, listProjects } from "@/lib/supabase/projects";
 
 interface Project {
   id: string;
@@ -17,29 +19,45 @@ export default function ProjectCreatePage() {
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved) as Project[];
-        setProjects(parsed);
-      }
-    } catch (e) {
-      console.error("Failed to load recent projects", e);
-    }
-  }, []);
+  const supabase = createSupabaseClient();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const load = async () => {
+      if (supabase) {
+        const rows = await listProjects(supabase);
+        setProjects(
+          rows.map((r) => ({
+            id: r.id,
+            name: r.name,
+            createdAt: r.created_at,
+          }))
+        );
+        return;
+      }
+      try {
+        const saved = window.localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved) as Project[];
+          setProjects(parsed);
+        }
+      } catch (e) {
+        console.error("Failed to load recent projects", e);
+      }
+    };
+    load();
+  }, [supabase]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || supabase) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
     } catch (e) {
       console.error("Failed to save recent projects", e);
     }
-  }, [projects]);
+  }, [projects, supabase]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = projectName.trim();
 
@@ -51,14 +69,27 @@ export default function ProjectCreatePage() {
     setError(null);
     setIsCreating(true);
 
-    // 간단한 로딩 상태 시뮬레이션
+    if (supabase) {
+      const result = await createProject(supabase, trimmed);
+      setIsCreating(false);
+      if (result) {
+        setProjects((prev) => [
+          { id: result.id, name: trimmed, createdAt: new Date().toISOString() },
+          ...prev,
+        ]);
+        setProjectName("");
+      } else {
+        setError("프로젝트 저장에 실패했습니다.");
+      }
+      return;
+    }
+
     setTimeout(() => {
       const newProject: Project = {
         id: Date.now().toString(),
         name: trimmed,
         createdAt: new Date().toISOString(),
       };
-
       setProjects((prev) => [newProject, ...prev].slice(0, 5));
       setProjectName("");
       setIsCreating(false);
@@ -72,6 +103,7 @@ export default function ProjectCreatePage() {
           <h1 className="text-2xl font-bold">프로젝트 생성</h1>
           <p className="text-sm text-slate-500">
             프로젝트 이름을 입력하고 최근 생성한 프로젝트를 한눈에 확인하세요.
+            {supabase && " (Supabase에 저장됩니다)"}
           </p>
         </div>
 
@@ -161,4 +193,3 @@ export default function ProjectCreatePage() {
     </div>
   );
 }
-
