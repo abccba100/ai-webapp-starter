@@ -2,6 +2,10 @@
 import { useState } from "react";
 import { useWizard } from "@/context/WizardContext";
 import { useRouter } from "next/navigation";
+import { createSupabaseClient } from "@/lib/supabase/client";
+import { createProject } from "@/lib/supabase/projects";
+import { createIdea } from "@/lib/supabase/ideas";
+import { saveSpecifications } from "@/lib/supabase/specifications";
 
 const MIN_LENGTH = 50;
 
@@ -29,14 +33,23 @@ const TEMPLATES = [
   },
 ];
 
+const MOCK_SPECS = [
+  { id: "1", feature: "회원가입/로그인", priority: "P0" as const },
+  { id: "2", feature: "상품 목록 리스트", priority: "P0" as const },
+  { id: "3", feature: "실시간 채팅", priority: "P1" as const },
+  { id: "4", feature: "관리자 대시보드", priority: "P1" as const },
+];
+
 export default function InputPage() {
-  const { idea, setIdea, setSpecs } = useWizard();
+  const { idea, setIdea, setSpecs, setCurrentProjectId, setCurrentIdeaId } = useWizard();
   const router = useRouter();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(
     null
   );
   const [error, setError] = useState<string | null>(null);
+
+  const supabase = createSupabaseClient();
 
   const handleNext = async () => {
     const trimmed = idea.trim();
@@ -51,16 +64,29 @@ export default function InputPage() {
     setError(null);
     setIsAnalyzing(true);
 
-    setTimeout(() => {
-      setSpecs([
-        { id: "1", feature: "회원가입/로그인", priority: "P0" },
-        { id: "2", feature: "상품 목록 리스트", priority: "P0" },
-        { id: "3", feature: "실시간 채팅", priority: "P1" },
-        { id: "4", feature: "관리자 대시보드", priority: "P1" },
-      ]);
-      setIsAnalyzing(false);
-      router.push("/spec");
-    }, 2000);
+    const projectName = trimmed.length > 50 ? `${trimmed.slice(0, 47)}...` : trimmed;
+    let projectId: string | null = null;
+    let ideaId: string | null = null;
+
+    if (supabase) {
+      const proj = await createProject(supabase, projectName);
+      if (proj) projectId = proj.id;
+      if (projectId) {
+        const ideaRow = await createIdea(supabase, projectId, trimmed);
+        if (ideaRow) ideaId = ideaRow.id;
+      }
+    }
+
+    const specs = MOCK_SPECS;
+    if (supabase && ideaId) {
+      await saveSpecifications(supabase, ideaId, specs);
+    }
+    if (projectId) setCurrentProjectId(projectId);
+    if (ideaId) setCurrentIdeaId(ideaId);
+    setSpecs(specs);
+    await new Promise((r) => setTimeout(r, 800));
+    setIsAnalyzing(false);
+    router.push("/spec");
   };
 
   const handleSelectTemplate = (id: string) => {

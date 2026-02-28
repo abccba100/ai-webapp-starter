@@ -13,6 +13,10 @@ interface WizardState {
   setSpecChangeRequest: (v: string | null) => void;
   selectedTheme: DesignTheme | null;
   setTheme: (t: DesignTheme) => void;
+  currentProjectId: string | null;
+  setCurrentProjectId: (id: string | null) => void;
+  currentIdeaId: string | null;
+  setCurrentIdeaId: (id: string | null) => void;
   resetWizard: () => void;
 }
 
@@ -24,6 +28,8 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
   const [specApproved, setSpecApproved] = useState(false);
   const [specChangeRequest, setSpecChangeRequest] = useState<string | null>(null);
   const [selectedTheme, setTheme] = useState<DesignTheme | null>(null);
+  const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
+  const [currentIdeaId, setCurrentIdeaId] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -42,6 +48,8 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
                 ? parsed.specChangeRequest
                 : null
             );
+            setCurrentProjectId(parsed.currentProjectId ?? null);
+            setCurrentIdeaId(parsed.currentIdeaId ?? null);
           } catch (e) {
             console.error("Failed to load context", e);
           }
@@ -61,16 +69,20 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         selectedTheme,
         specApproved,
         specChangeRequest,
+        currentProjectId,
+        currentIdeaId,
       };
       localStorage.setItem('wizard_data', JSON.stringify(data));
     }
-  }, [idea, specs, selectedTheme, specApproved, specChangeRequest, isLoaded]);
+  }, [idea, specs, selectedTheme, specApproved, specChangeRequest, currentProjectId, currentIdeaId, isLoaded]);
 
   const resetWizard = () => {
     setIdea('');
     setSpecs([]);
     setSpecApproved(false);
     setSpecChangeRequest(null);
+    setCurrentProjectId(null);
+    setCurrentIdeaId(null);
     setTheme(null);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('wizard_data');
@@ -90,6 +102,10 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
         setSpecChangeRequest,
         selectedTheme,
         setTheme,
+        currentProjectId,
+        setCurrentProjectId,
+        currentIdeaId,
+        setCurrentIdeaId,
         resetWizard,
       }}
     >
