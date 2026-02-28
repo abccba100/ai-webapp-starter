@@ -9,6 +9,7 @@
   --color-accent: #22d3ee;
   --color-background: #f8fafc;
   --color-success: #16a34a;
+  --color-destructive: #dc2626;
 
   /* 8px spacing scale (1 = 8px) */
   --space-0: 0px;
@@ -42,6 +43,10 @@ body {
 
   .btn-accent {
     @apply bg-accent text-slate-950 hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
+  }
+
+  .btn-outline {
+    @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40;
   }
 
   .card {

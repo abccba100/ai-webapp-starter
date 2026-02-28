@@ -1,4 +1,4 @@
-\"use client\";
+"use client";
 import { useState } from 'react';
 import SpecEditor from '@/components/SpecEditor';
 import { useRouter } from 'next/navigation';
@@ -33,15 +33,14 @@ export default function SpecPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 animate-fade-in-up">
-      <div className="mb-8">
-        <span className="text-sm font-semibold text-blue-600 mb-1 block">Step 2. 기능 명세</span>
-        <h1 className="text-3xl font-bold mb-3">AI가 제안하는 앱 설계도입니다</h1>
-        <p className="text-gray-600">
-          &quot;<span className="font-medium text-gray-900">{idea.slice(0, 20)}{idea.length > 20 ? '...' : ''}</span>&quot;에 대한 분석 결과예요.<br/>
+    <div className="max-w-3xl mx-auto p-6 animate-fade-in-up space-y-6">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-bold">AI가 제안하는 앱 설계도입니다</h1>
+        <p className="text-slate-600">
+          &quot;<span className="font-medium text-slate-900">{idea.slice(0, 20)}{idea.length > 20 ? "..." : ""}</span>&quot;에 대한 분석 결과예요.<br />
           수정하거나 추가할 내용이 있나요?
         </p>
-      </div>
+      </header>
       
       <SpecEditor />
 
@@ -129,7 +128,7 @@ export default function SpecPage() {
               </div>
 
               {specApproved && (
-                <span className="text-xs font-medium text-emerald-600">
+                <span className="text-xs font-medium text-success">
                   ✅ 기능 명세가 승인되었습니다.
                 </span>
               )}
@@ -138,25 +137,27 @@ export default function SpecPage() {
         </section>
       )}
 
-      <div className="mt-10 flex flex-col gap-4 border-t pt-6 md:flex-row md:items-center md:justify-between">
-        <button 
-          onClick={() => router.push('/input')}
-          className="text-gray-500 hover:text-gray-800 underline text-sm"
+      <div className="pt-6 mt-8 border-t border-slate-200 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <button
+          type="button"
+          onClick={() => router.push("/input")}
+          className="text-slate-500 hover:text-slate-700 underline text-sm text-left"
         >
           마음에 안 드나요? 다시 입력하기
         </button>
-
-        <button 
-          onClick={() => specApproved && router.push('/design')}
-          disabled={!specApproved}
-          className="btn btn-primary px-8 py-3 text-sm font-bold shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
-          이대로 진행하기 →
-        </button>
-        {!specApproved && (
-          <p className="text-xs text-slate-400 md:text-right">
-            기능 명세를 승인해야 다음 단계(Design)로 이동할 수 있어요.
-          </p>
-        )}
+        <div className="flex flex-col items-end gap-1">
+          <button
+            type="button"
+            onClick={() => specApproved && router.push("/design")}
+            disabled={!specApproved}
+            className="btn btn-primary px-8 py-3 rounded-xl text-sm font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            이대로 진행하기 →
+          </button>
+          {!specApproved && (
+            <p className="text-xs text-slate-400">기능 명세를 승인해야 다음 단계로 이동할 수 있어요.</p>
+          )}
+        </div>
       </div>
     </div>
   );

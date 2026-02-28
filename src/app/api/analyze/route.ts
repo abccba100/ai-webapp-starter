@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const idea = typeof body.idea === 'string' ? body.idea.trim() : '';
+    const idea = typeof (body as { idea?: unknown }).idea === 'string' ? (body as { idea: string }).idea.trim() : '';
 
     if (!idea) {
       return NextResponse.json(

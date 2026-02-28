@@ -26,28 +26,38 @@ export default function DesignPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6 text-center">앱 분위기를 선택해주세요</h1>
+    <div className="max-w-3xl mx-auto p-6 animate-fade-in-up space-y-6">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-bold text-center">앱 분위기를 선택해주세요</h1>
+        <p className="text-gray-500 text-sm text-center">
+          앱의 전체적인 분위기를 선택하면 디자인에 반영됩니다.
+        </p>
+      </header>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {THEMES.map((theme) => (
-          <div 
+          <button
             key={theme.id}
+            type="button"
             onClick={() => handleSelect(theme.id)}
-            className={`cursor-pointer border-2 rounded-xl p-6 transition-all hover:-translate-y-1
-              ${selectedTheme === theme.id ? 'border-blue-600 shadow-lg' : 'border-gray-200 hover:border-gray-400'}
+            className={`text-left cursor-pointer border-2 rounded-xl p-6 transition-all hover:-translate-y-1
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+              ${selectedTheme === theme.id ? 'border-primary shadow-lg ring-2 ring-primary/30' : 'border-slate-200 hover:border-slate-400'}
               ${theme.color} h-64 flex flex-col justify-center items-center text-center
-            `}>
+            `}
+          >
             <div className="w-16 h-16 bg-white rounded-full shadow mb-4" />
             <h3 className="font-bold text-lg">{theme.title}</h3>
             <p className="text-sm text-gray-500 mt-2">{theme.desc}</p>
-          </div>
+          </button>
         ))}
       </div>
-      <div className="mt-8 flex justify-end">
-        <button 
+      <div className="pt-6 mt-8 border-t border-slate-200 flex flex-col gap-4 md:flex-row md:items-center md:justify-end">
+        <button
+          type="button"
           disabled={!selectedTheme}
           onClick={() => router.push('/build')}
-          className="bg-blue-600 text-white px-8 py-3 rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed">
+          className="btn btn-primary px-8 py-3 rounded-xl text-sm font-semibold shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           앱 생성하기 🚀
         </button>
       </div>
