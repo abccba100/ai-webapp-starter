@@ -7,6 +7,10 @@ interface WizardState {
   setIdea: (s: string) => void;
   specs: SpecItem[];
   setSpecs: (s: SpecItem[]) => void;
+  specApproved: boolean;
+  setSpecApproved: (v: boolean) => void;
+  specChangeRequest: string | null;
+  setSpecChangeRequest: (v: string | null) => void;
   selectedTheme: DesignTheme | null;
   setTheme: (t: DesignTheme) => void;
   resetWizard: () => void;
@@ -17,6 +21,8 @@ const WizardContext = createContext<WizardState | null>(null);
 export const WizardProvider = ({ children }: { children: ReactNode }) => {
   const [idea, setIdea] = useState('');
   const [specs, setSpecs] = useState<SpecItem[]>([]);
+  const [specApproved, setSpecApproved] = useState(false);
+  const [specChangeRequest, setSpecChangeRequest] = useState<string | null>(null);
   const [selectedTheme, setTheme] = useState<DesignTheme | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -30,6 +36,12 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
             setIdea(parsed.idea || '');
             setSpecs(parsed.specs || []);
             setTheme(parsed.selectedTheme || null);
+            setSpecApproved(parsed.specApproved || false);
+            setSpecChangeRequest(
+              typeof parsed.specChangeRequest === 'string'
+                ? parsed.specChangeRequest
+                : null
+            );
           } catch (e) {
             console.error("Failed to load context", e);
           }
@@ -43,14 +55,22 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (isLoaded) {
-      const data = { idea, specs, selectedTheme };
+      const data = {
+        idea,
+        specs,
+        selectedTheme,
+        specApproved,
+        specChangeRequest,
+      };
       localStorage.setItem('wizard_data', JSON.stringify(data));
     }
-  }, [idea, specs, selectedTheme, isLoaded]);
+  }, [idea, specs, selectedTheme, specApproved, specChangeRequest, isLoaded]);
 
   const resetWizard = () => {
     setIdea('');
     setSpecs([]);
+    setSpecApproved(false);
+    setSpecChangeRequest(null);
     setTheme(null);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('wizard_data');
@@ -58,7 +78,21 @@ export const WizardProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <WizardContext.Provider value={{ idea, setIdea, specs, setSpecs, selectedTheme, setTheme, resetWizard }}>
+    <WizardContext.Provider
+      value={{
+        idea,
+        setIdea,
+        specs,
+        setSpecs,
+        specApproved,
+        setSpecApproved,
+        specChangeRequest,
+        setSpecChangeRequest,
+        selectedTheme,
+        setTheme,
+        resetWizard,
+      }}
+    >
       {children}
     </WizardContext.Provider>
   );

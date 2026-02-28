@@ -1,5 +1,6 @@
 // src/app/design/page.tsx
 "use client";
+import { useEffect } from 'react';
 import { useWizard } from '@/context/WizardContext';
 import { useRouter } from 'next/navigation';
 import { DesignTheme } from '@/types';
@@ -11,8 +12,14 @@ const THEMES: { id: DesignTheme; title: string; desc: string; color: string }[] 
 ];
 
 export default function DesignPage() {
-  const { selectedTheme, setTheme } = useWizard();
+  const { selectedTheme, setTheme, specApproved } = useWizard();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!specApproved) {
+      router.replace('/spec');
+    }
+  }, [specApproved, router]);
 
   const handleSelect = (id: DesignTheme) => {
     setTheme(id);
