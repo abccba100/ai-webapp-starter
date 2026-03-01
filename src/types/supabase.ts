@@ -66,6 +66,38 @@ export interface Database {
           created_at?: string;
         };
       };
+      specs: {
+        Row: {
+          id: string;
+          project_id: string;
+          raw_input: string;
+          ai_output: Json;
+          revision_count: number;
+          design_locked: boolean;
+          approved: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          raw_input: string;
+          ai_output: Json;
+          revision_count?: number;
+          design_locked?: boolean;
+          approved?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          project_id?: string;
+          raw_input?: string;
+          ai_output?: Json;
+          revision_count?: number;
+          design_locked?: boolean;
+          approved?: boolean;
+          created_at?: string;
+        };
+      };
     };
   };
 }

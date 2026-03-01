@@ -1,17 +1,19 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+"use client";
+
+import { createBrowserClient } from "@supabase/ssr";
 import type { Database } from "@/types/supabase";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+export function createClient() {
+  const supabaseKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  return createBrowserClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    supabaseKey!
+  );
+}
 
-let cached: SupabaseClient<Database> | null | undefined = undefined;
-
-export function createSupabaseClient(): SupabaseClient<Database> | null {
-  if (cached !== undefined) return cached;
-  if (!supabaseUrl || !supabaseAnonKey) {
-    cached = null;
-    return null;
-  }
-  cached = createClient<Database>(supabaseUrl, supabaseAnonKey);
-  return cached;
+/** @deprecated 클라이언트 컴포넌트에서는 createClient() 사용 */
+export function createSupabaseClient() {
+  return createClient();
 }
